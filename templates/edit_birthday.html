@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>Edit Birthday</title></head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; display: flex; justify-content: center;">
+    
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
+        <h2>✏️ Edit Birthday</h2>
+        
+        <form method="POST">
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Name</label>
+            <!-- Notice value="{{ student.name }}" fills the box automatically -->
+            <input type="text" name="student_name" value="{{ student.name }}" required style="width: 95%; margin-bottom: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Date of Birth</label>
+            <input type="date" name="student_dob" value="{{ student.dob }}" required style="width: 95%; margin-bottom: 20px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+
+            <button type="submit" style="width: 100%; padding: 10px; background: #f39c12; color: white; border: none; font-weight: bold; border-radius: 4px; cursor: pointer;">Save Changes</button>
+        </form>
+        
+        <br>
+        <a href="/admin-dashboard" style="color: #3498db; text-decoration: none; display: block; text-align: center;">← Cancel and go back</a>
+    </div>
+
+</body>
+</html>

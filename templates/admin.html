@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Birthday (Admin)</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 400px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input { width: 90%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .btn { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold;}
+        .btn:hover { background-color: #218838; }
+        .error { color: red; font-weight: bold; margin-bottom: 15px; }
+        .back-link { display: block; margin-top: 15px; text-align: center; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>➕ Add New Birthday</h2>
+    
+    <!-- If the password was wrong, this shows the error -->
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <!-- The Form. action="" means it posts to the same URL (/admin) -->
+    <form method="POST" action="/admin">
+        <div class="form-group">
+            <label>Student Name</label>
+            <input type="text" name="student_name" required placeholder="e.g., John Doe">
+        </div>
+        
+        <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" name="student_dob" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Admin Password</label>
+            <input type="password" name="admin_password" required placeholder="Enter secret password">
+        </div>
+        
+        <button type="submit" class="btn">Save to Database</button>
+    </form>
+    
+    <a href="/" class="back-link">← Back to Dashboard</a>
+</div>
+
+</body>
+</html>

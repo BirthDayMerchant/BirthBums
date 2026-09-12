@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head><title>Register</title></head>
+<body style="font-family: Arial; padding: 20px; max-width: 400px; margin: auto;">
+    <h2>Create an Account</h2>
+    {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
+    
+    <form method="POST">
+        <label>Username (Required)</label><br>
+        <input type="text" name="username" required style="width:100%; margin-bottom: 10px;"><br>
+        
+        <label>Password (Required)</label><br>
+        <input type="password" name="password" required style="width:100%; margin-bottom: 10px;"><br>
+
+        <label>Full Name (Required)</label><br>
+        <input type="text" name="name" required style="width:100%; margin-bottom: 10px;"><br>
+
+        <label>Room No (Optional)</label><br>
+        <input type="text" name="room_no" style="width:100%; margin-bottom: 10px;"><br>
+
+        <label>Date of Birth (Optional)</label><br>
+        <input type="date" name="dob" style="width:100%; margin-bottom: 20px;"><br>
+
+        <button type="submit" style="width:100%; padding: 10px; background: #28a745; color: white; border: none;">Register</button>
+    </form>
+    <p style="text-align: center;"><a href="/login">Already have an account? Login here.</a></p>
+</body>
+</html>

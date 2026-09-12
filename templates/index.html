@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Birthday Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .date-badge {
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .add-btn {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .add-btn:hover {
+            background-color: #0056b3;
+        }
+        .spotlight {
+            background-color: #fff3cd;
+            border: 2px solid #ffeeba;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .list-section {
+            border: 2px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- TOP ROW: Date & Add Button -->
+    <div class="header">
+        <div class="date-badge">📅 {{ current_date }}</div>
+        <!-- Simple mailto link for admin-only additions -->
+        <a href="/request-birthday" class="add-btn">+ Add Birthday</a>
+        <a href="/logout" class="add-btn" style="background-color: #dc3545; margin-left: 10px;">Logout</a>
+    </div>
+
+    <!-- TOP MIDDLE BOX: The Very Next Birthday -->
+    <div class="spotlight">
+        <h2>🎉 Upcoming Spotlight</h2>
+        {% if next_birthday %}
+            <h3>{{ next_birthday.name }}</h3>
+            <p>{{ next_birthday.dob }} (In {{ next_birthday.days_until }} days)</p>
+        {% else %}
+            <p>No birthdays found in the database.</p>
+        {% endif %}
+    </div>
+
+    <!-- BOTTOM BOX: List of all other upcoming birthdays -->
+    <div class="list-section">
+        <h2>All Upcoming Birthdays</h2>
+        <ul>
+            {% for bday in rest_upcoming %}
+                <li>
+                    <strong>{{ bday.name }}</strong> 
+                    <span>{{ bday.dob }} (In {{ bday.days_until }} days)</span>
+                </li>
+            {% else %}
+                <li>No other upcoming birthdays.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
