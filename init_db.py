@@ -41,14 +41,7 @@ cursor.execute('''
     )
 ''')
 
-# Insert some dummy data (Format: YYYY-MM-DD)
-dummy_data = [
-    ('Alice', '2005-09-15'), # Set this close to today's date to test "upcoming"
-    ('Bob', '2006-10-22'),
-    ('Charlie', '2005-01-05')
-]
 
-cursor.executemany('INSERT INTO students (name, dob) VALUES (?, ?)', dummy_data)
 conn.commit()
 conn.close()
 

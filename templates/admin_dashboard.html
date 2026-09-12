@@ -95,10 +95,50 @@
         </table>
     </div>
 
-    <!-- COLUMN 3: Placeholder -->
-    <div class="column">
-        <h3 class="column-title">Future Features</h3>
-        <p style="color: #7f8c8d; font-style: italic;">Space reserved for notification settings, WhatsApp bot integrations, etc.</p>
+    <!-- COLUMN 3: Requests & Suggestions -->
+    <div class="column" style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- UPPER HALF: Birthday Requests -->
+        <div style="flex: 1; border-bottom: 2px solid #eee; padding-bottom: 20px;">
+            <h3 class="column-title">Birthday Requests</h3>
+            <table>
+                <tr>
+                    <th>Req By</th>
+                    <th>Name</th>
+                    <th>DOB</th>
+                    <th>Proof</th>
+                    <th>Actions</th>
+                </tr>
+                {% for req in bday_requests %}
+                <tr>
+                    <td>{{ req.requested_by }}</td>
+                    <td>{{ req.name }}</td>
+                    <td>{{ req.dob }}</td>
+                    <td>
+                        {% if req.proof %}
+                            <a href="{{ url_for('static', filename='uploads/' + req.proof) }}" target="_blank" style="color: #3498db; text-decoration: none; font-weight: bold;">View</a>
+                        {% else %}
+                            <span style="color: #999;">None</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <!-- Buttons are now functional links! -->
+                        <a href="/admin/approve_request/{{ req.id }}" class="btn-small btn-add" style="margin:0; padding: 3px 6px; display:inline; text-decoration:none;">✓</a>
+                        <a href="/admin/reject_request/{{ req.id }}" class="btn-small btn-delete" style="padding: 3px 6px; text-decoration:none;">✗</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" style="text-align: center; color: #999; padding: 20px 0;">No pending requests.</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- LOWER HALF: Suggestions -->
+        <div style="flex: 1;">
+            <h3 class="column-title">Suggestions</h3>
+            <p style="color: #7f8c8d; font-style: italic;">(We will configure this section later)</p>
+        </div>
+        
     </div>
 
 </div>

@@ -51,14 +51,22 @@ def register():
 @app.route('/admin-login', methods=['GET', 'POST'])
 def admin_login():
     error = None
+    
+    # 1. Here is where you configure your admins! 
+    # Add as many as you want in this "username": "password" format.
+    ADMIN_USERS = {
+        "Sujan": "Sujan@Sil@2007",
+        "Ishaan": "Lol1234cool"
+    }
+    
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
-        # Hardcoded Admin Credentials
-        if username == "admin" and password == "admin123":
+        # 2. Check if they are in the list AND the password matches
+        if username in ADMIN_USERS and ADMIN_USERS[username] == password:
             session['is_admin'] = True
-            session['logged_in_user'] = "Administrator"
+            session['logged_in_user'] = username # Logs you in under your specific admin name
             return redirect(url_for('admin_dashboard'))
         else:
             error = "Invalid Admin Credentials"
@@ -78,7 +86,11 @@ def admin_dashboard():
     
     # 2. Get all birthday entries (for Column 1 List)
     all_birthdays = conn.execute('SELECT * FROM students').fetchall()
+
+    # NEW: Fetch all pending birthday requests
+    bday_requests = conn.execute('SELECT * FROM birthday_requests').fetchall()
     conn.close()
+
 
     # 3. Calculate Upcoming Birthday (for Column 1 Spotlight)
     today = datetime.now()
@@ -106,7 +118,8 @@ def admin_dashboard():
     return render_template('admin_dashboard.html', 
                            users=users, 
                            all_birthdays=upcoming_birthdays,
-                           next_birthday=next_birthday)
+                           next_birthday=next_birthday,
+                            bday_requests = bday_requests)
 
 
 @app.route('/delete_birthday/<int:student_id>')
@@ -233,37 +246,61 @@ def edit_birthday(student_id):
 
 @app.route('/request-birthday', methods=['GET', 'POST'])
 def request_birthday():
-    # Make sure only logged-in users can request a birthday
     if 'logged_in_user' not in session:
         return redirect(url_for('login'))
         
     if request.method == 'POST':
         name = request.form['name']
+        dob = request.form['dob'] # <--- Capturing the new DOB field
         room_no = request.form.get('room_no', '')
+        requested_by = session['logged_in_user'] # <--- Automatically tracking who sent it
         
-        # Handle the image upload
         proof_filename = ""
-        # Check if the form included a file part
         if 'proof' in request.files:
             file = request.files['proof']
-            # If the user actually selected a file
             if file.filename != '': 
                 proof_filename = secure_filename(file.filename)
-                # Physically save the file to your computer
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], proof_filename))
         
-        # Save the data (and the filename) to the database
         conn = get_db_connection()
-        conn.execute('INSERT INTO birthday_requests (name, room_no, proof) VALUES (?, ?, ?)', 
-                     (name, room_no, proof_filename))
+        conn.execute('INSERT INTO birthday_requests (name, dob, room_no, proof, requested_by) VALUES (?, ?, ?, ?, ?)', 
+                     (name, dob, room_no, proof_filename, requested_by))
         conn.commit()
         conn.close()
         
-        # Send them back to the dashboard when done
         return redirect(url_for('home'))
         
-    # If it's a GET request, just show the form
     return render_template('request_birthday.html')
+
+@app.route('/admin/approve_request/<int:req_id>')
+def approve_request(req_id):
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
+        
+    conn = get_db_connection()
+    # 1. Get the request data
+    req = conn.execute('SELECT * FROM birthday_requests WHERE id = ?', (req_id,)).fetchone()
+    
+    if req:
+        # 2. Insert it into the official students table
+        conn.execute('INSERT INTO students (name, dob) VALUES (?, ?)', (req['name'], req['dob']))
+        # 3. Delete it from the pending requests table
+        conn.execute('DELETE FROM birthday_requests WHERE id = ?', (req_id,))
+        conn.commit()
+        
+    conn.close()
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/admin/reject_request/<int:req_id>')
+def reject_request(req_id):
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
+        
+    conn = get_db_connection()
+    conn.execute('DELETE FROM birthday_requests WHERE id = ?', (req_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('admin_dashboard'))
 
 if __name__ == '__main__':
     app.run(debug=True)
