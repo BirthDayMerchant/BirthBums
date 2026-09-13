@@ -11,7 +11,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
 
-app.secret_key = 'super_secret_development_key' 
+app.secret_key = os.urandom(24)
 
 def get_db_connection():
     conn = sqlite3.connect('birthdays.db')
@@ -52,8 +52,6 @@ def register():
 def admin_login():
     error = None
     
-    # 1. Here is where you configure your admins! 
-    # Add as many as you want in this "username": "password" format.
     ADMIN_USERS = {
         "Sujan": "Sujan@Sil@2007",
         "Ishaan": "Lol1234cool"
@@ -301,6 +299,13 @@ def reject_request(req_id):
     conn.commit()
     conn.close()
     return redirect(url_for('admin_dashboard'))
+
+@app.route('/plan', methods = ['GET', 'POST'])
+def plan() :
+    if 'logged_in_user' not in session:
+        return redirect(url_for('login'))
+
+    return render_template('plan.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

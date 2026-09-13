@@ -98,7 +98,10 @@
             {% for bday in rest_upcoming %}
                 <li>
                     <strong>{{ bday.name }}</strong> 
-                    <span>{{ bday.dob }} (In {{ bday.days_until }} days)</span>
+                    <span>
+                        {{ bday.dob }} (In {{ bday.days_until }} days)
+                        <a href="/plan" style="margin-left: 15px; padding: 2px 6px; background-color: #e2e8f0; border: 1px solid #cbd5e1; text-decoration: none; color: #0f172a; border-radius: 4px; font-size: 0.85em;">Plan</a>
+                    </span>
                 </li>
             {% else %}
                 <li>No other upcoming birthdays.</li>
