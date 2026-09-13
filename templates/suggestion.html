@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Have Suggestions ?</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; display: flex; justify-content: center;">
+    
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
+        <h2>📝 Add Suggestions</h2>
+        <p style="font-size: 0.9em; color: #666;">Submit details to the admin for approval.</p>
+        
+        <form method="POST" enctype="multipart/form-data">
+            
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Your name</label>
+            <input type="text" name="name" placeholder="(optional)" style="width: 95%; margin-bottom: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+
+            
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Your Suggestion</label>
+            <textarea name="Suggestion" rows="5" placeholder="Type your suggestion here..." style="width: 95%; margin-bottom: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+            
+
+            <button type="submit" style="width: 100%; padding: 10px; background: #007bff; color: white; border: none; font-weight: bold; border-radius: 4px; cursor: pointer;">Submit Request</button>
+        </form>
+        
+        <br>
+        <a href="/" style="color: #dc3545; text-decoration: none; display: block; text-align: center;">← Cancel</a>
+    </div>
+
+</body>
+</html>

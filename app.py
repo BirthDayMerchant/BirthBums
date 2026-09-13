@@ -87,7 +87,11 @@ def admin_dashboard():
 
     # NEW: Fetch all pending birthday requests
     bday_requests = conn.execute('SELECT * FROM birthday_requests').fetchall()
+
+    #Fetch all the suggestions
+    suggestions = conn.execute('SELECT * FROM suggestions').fetchall()
     conn.close()
+
 
 
     # 3. Calculate Upcoming Birthday (for Column 1 Spotlight)
@@ -117,7 +121,8 @@ def admin_dashboard():
                            users=users, 
                            all_birthdays=upcoming_birthdays,
                            next_birthday=next_birthday,
-                            bday_requests = bday_requests)
+                            bday_requests = bday_requests,
+                            suggestions = suggestions)
 
 
 @app.route('/delete_birthday/<int:student_id>')
@@ -306,6 +311,22 @@ def plan() :
         return redirect(url_for('login'))
 
     return render_template('plan.html')
+
+@app.route('/suggestion', methods=['GET', 'POST'])
+def suggestion() :
+    if 'logged_in_user' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST' :
+        name = request.form.get('name','')
+        suggestion_text = request.form['Suggestion']
+        conn = get_db_connection()
+        conn.execute('INSERT INTO suggestions (name, suggestion_text) VALUES (?, ?)', 
+                         (name, suggestion_text))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('home'))
+    return render_template('suggestion.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

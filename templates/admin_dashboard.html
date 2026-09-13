@@ -1,147 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; }
-        .header { display: flex; justify-content: space-between; margin-bottom: 20px; background: #34495e; color: white; padding: 15px; border-radius: 8px;}
-        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
         /* The 3-Column Layout */
         .grid-container {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr; /* Three equal columns */
+            grid-template-columns: 1fr 1fr 1fr;
+            /* Three equal columns */
             gap: 20px;
         }
-        
-        .column { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .column-title { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; }
-        
-        .spotlight { background: #fff3cd; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #ffeeba;}
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; font-size: 0.9em; }
-        
-        .btn-small { padding: 4px 8px; border: none; border-radius: 3px; color: white; cursor: pointer; text-decoration: none; font-size: 0.8em; }
-        .btn-edit { background: #f39c12; }
-        .btn-delete { background: #e74c3c; }
-        .btn-add { background: #2ecc71; display: block; text-align: center; padding: 10px; margin-bottom: 15px;}
+
+        .column {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .column-title {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .spotlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ffeeba;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.9em;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 3px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.8em;
+        }
+
+        .btn-edit {
+            background: #f39c12;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+        }
+
+        .btn-add {
+            background: #2ecc71;
+            display: block;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="header">
-    <h2>⚙️ Admin Control Panel</h2>
-    <a href="/logout" style="color: white; text-decoration: underline;">Logout</a>
-</div>
-
-<div class="grid-container">
-    
-    <!-- COLUMN 1: Birthdays -->
-    <div class="column">
-        <h3 class="column-title">Birthday Manager</h3>
-        
-        <!-- Current Birthday Box -->
-        <div class="spotlight">
-            <strong>Next Up:</strong>
-            {% if next_birthday %}☠️
-                <p style="margin: 5px 0;">{{ next_birthday.name }} ({{ next_birthday.dob }})</p>
-                <small>In {{ next_birthday.days_until }} days</small>
-            {% else %}
-                <p>No birthdays found.</p>
-            {% endif %}
-        </div>
-
-        <!-- Quick Add Form -->
-        <div style="background: #e9ecef; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
-            <strong style="display:block; margin-bottom: 5px; font-size: 0.9em;">+ Quick Add Birthday</strong>
-            <form method="POST" action="/admin/add_birthday" style="display: flex; gap: 5px;">
-                <input type="text" name="student_name" placeholder="Name" required style="flex: 1; padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
-                <input type="date" name="student_dob" required style="padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
-                <button type="submit" class="btn-small btn-add" style="margin: 0; padding: 5px 10px;">Add</button>
-            </form>
-        </div>
-
-        <!-- List of Birthdays -->
-        <strong>All Entries:</strong>
-        <table>
-            <tr><th>Name</th><th>DOB</th><th>Actions</th></tr>
-            {% for bday in all_birthdays %}
-            <tr>
-                <td>{{ bday.name }}</td>
-                <td>{{ bday.dob }}</td>
-                <td>
-                    <a href="/edit_birthday/{{ bday.id }}" class="btn-small btn-edit">Edit</a>
-                    <a href="/delete_birthday/{{ bday.id }}" class="btn-small btn-delete" onclick="return confirm('Delete this birthday?');">Del</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div> <!-- This was the missing closing tag that broke your layout! -->
-
-    <!-- COLUMN 2: User Database -->
-    <div class="column">
-        <h3 class="column-title">User Database</h3>
-        <table>
-            <tr><th>Username</th><th>Password</th><th>Name</th><th>Room</th></tr>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.username }}</td>
-                <td style="color: #e74c3c; font-family: monospace;">{{ user.password }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.room_no }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+    <div class="header">
+        <h2>⚙️ Admin Control Panel</h2>
+        <a href="/logout" style="color: white; text-decoration: underline;">Logout</a>
     </div>
 
-    <!-- COLUMN 3: Requests & Suggestions -->
-    <div class="column" style="display: flex; flex-direction: column; gap: 20px;">
-        
-        <!-- UPPER HALF: Birthday Requests -->
-        <div style="flex: 1; border-bottom: 2px solid #eee; padding-bottom: 20px;">
-            <h3 class="column-title">Birthday Requests</h3>
+    <div class="grid-container">
+
+        <!-- COLUMN 1: Birthdays -->
+        <div class="column">
+            <h3 class="column-title">Birthday Manager</h3>
+
+            <!-- Current Birthday Box -->
+            <div class="spotlight">
+                <strong>Next Up:</strong>
+                {% if next_birthday %}☠️
+                <p style="margin: 5px 0;">{{ next_birthday.name }} ({{ next_birthday.dob }})</p>
+                <small>In {{ next_birthday.days_until }} days</small>
+                {% else %}
+                <p>No birthdays found.</p>
+                {% endif %}
+            </div>
+
+            <!-- Quick Add Form -->
+            <div style="background: #e9ecef; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                <strong style="display:block; margin-bottom: 5px; font-size: 0.9em;">+ Quick Add Birthday</strong>
+                <form method="POST" action="/admin/add_birthday" style="display: flex; gap: 5px;">
+                    <input type="text" name="student_name" placeholder="Name" required
+                        style="flex: 1; padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
+                    <input type="date" name="student_dob" required
+                        style="padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
+                    <button type="submit" class="btn-small btn-add" style="margin: 0; padding: 5px 10px;">Add</button>
+                </form>
+            </div>
+
+            <!-- List of Birthdays -->
+            <strong>All Entries:</strong>
             <table>
                 <tr>
-                    <th>Req By</th>
                     <th>Name</th>
                     <th>DOB</th>
-                    <th>Proof</th>
                     <th>Actions</th>
                 </tr>
-                {% for req in bday_requests %}
+                {% for bday in all_birthdays %}
                 <tr>
-                    <td>{{ req.requested_by }}</td>
-                    <td>{{ req.name }}</td>
-                    <td>{{ req.dob }}</td>
+                    <td>{{ bday.name }}</td>
+                    <td>{{ bday.dob }}</td>
                     <td>
-                        {% if req.proof %}
-                            <a href="{{ url_for('static', filename='uploads/' + req.proof) }}" target="_blank" style="color: #3498db; text-decoration: none; font-weight: bold;">View</a>
-                        {% else %}
-                            <span style="color: #999;">None</span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <!-- Buttons are now functional links! -->
-                        <a href="/admin/approve_request/{{ req.id }}" class="btn-small btn-add" style="margin:0; padding: 3px 6px; display:inline; text-decoration:none;">✓</a>
-                        <a href="/admin/reject_request/{{ req.id }}" class="btn-small btn-delete" style="padding: 3px 6px; text-decoration:none;">✗</a>
+                        <a href="/edit_birthday/{{ bday.id }}" class="btn-small btn-edit">Edit</a>
+                        <a href="/delete_birthday/{{ bday.id }}" class="btn-small btn-delete"
+                            onclick="return confirm('Delete this birthday?');">Del</a>
                     </td>
                 </tr>
-                {% else %}
-                <tr><td colspan="5" style="text-align: center; color: #999; padding: 20px 0;">No pending requests.</td></tr>
+                {% endfor %}
+            </table>
+        </div> <!-- This was the missing closing tag that broke your layout! -->
+
+        <!-- COLUMN 2: User Database -->
+        <div class="column">
+            <h3 class="column-title">User Database</h3>
+            <table>
+                <tr>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Name</th>
+                    <th>Room</th>
+                </tr>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td style="color: #e74c3c; font-family: monospace;">{{ user.password }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.room_no }}</td>
+                </tr>
                 {% endfor %}
             </table>
         </div>
 
-        <!-- LOWER HALF: Suggestions -->
-        <div style="flex: 1;">
-            <h3 class="column-title">Suggestions</h3>
-            <p style="color: #7f8c8d; font-style: italic;">(We will configure this section later)</p>
+        <!-- COLUMN 3: Requests & Suggestions -->
+        <div class="column" style="display: flex; flex-direction: column; gap: 20px;">
+
+            <!-- UPPER HALF: Birthday Requests -->
+            <div style="flex: 1; border-bottom: 2px solid #eee; padding-bottom: 20px;">
+                <h3 class="column-title">Birthday Requests</h3>
+                <table>
+                    <tr>
+                        <th>Req By</th>
+                        <th>Name</th>
+                        <th>DOB</th>
+                        <th>Proof</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for req in bday_requests %}
+                    <tr>
+                        <td>{{ req.requested_by }}</td>
+                        <td>{{ req.name }}</td>
+                        <td>{{ req.dob }}</td>
+                        <td>
+                            {% if req.proof %}
+                            <a href="{{ url_for('static', filename='uploads/' + req.proof) }}" target="_blank"
+                                style="color: #3498db; text-decoration: none; font-weight: bold;">View</a>
+                            {% else %}
+                            <span style="color: #999;">None</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <!-- Buttons are now functional links! -->
+                            <a href="/admin/approve_request/{{ req.id }}" class="btn-small btn-add"
+                                style="margin:0; padding: 3px 6px; display:inline; text-decoration:none;">✓</a>
+                            <a href="/admin/reject_request/{{ req.id }}" class="btn-small btn-delete"
+                                style="padding: 3px 6px; text-decoration:none;">✗</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #999; padding: 20px 0;">No pending requests.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <!-- LOWER HALF: Suggestions -->
+            <div style="flex: 1;">
+                <h3 class="column-title">Suggestions</h3>
+
+                {% if suggestions %}
+                <ul style="list-style-type: none; padding: 0;">
+                    {% for sug in suggestions %}
+                    <li
+                        style="margin-bottom: 10px; padding: 10px; border: 1px solid #e5e7eb; border-radius: 6px; background-color: #f9fafb;">
+
+                        <strong style="color: #111827;">{{ sug.name or 'Anonymous' }}</strong>
+                        <span style="font-size: 0.8em; color: #6b7280; margin-left: 8px;">{{ sug.submitted_at }}</span>
+
+                        <p style="margin-top: 5px; margin-bottom: 0; color: #374151; font-size: 0.95em;">
+                            {{ sug.suggestion_text }}
+                        </p>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p style="color: #7f8c8d; font-style: italic;">No suggestions yet. The inbox is clean.</p>
+                {% endif %}
+            </div>
+
         </div>
-        
+
     </div>
 
-</div>
-
 </body>
+
 </html>

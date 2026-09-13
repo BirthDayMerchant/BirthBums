@@ -34,11 +34,16 @@ cursor.execute('''
     )
 ''')
 
+# conn.execute('DROP TABLE IF EXISTS suggestions')
+
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS suggestions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        suggestion_text TEXT NOT NULL
-    )
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    suggestion_text TEXT NOT NULL,
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 ''')
 
 
