@@ -24,7 +24,7 @@ cursor.execute('''
         dob DATE
     )
 ''')
-conn.execute('DROP TABLE IF EXISTS birthday_requests')
+# conn.execute('DROP TABLE IF EXISTS birthday_requests')
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS birthday_requests (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
