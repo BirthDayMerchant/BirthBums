@@ -11,7 +11,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
 
-app.secret_key = os.urandom(24)
+app.secret_key = "It's_A_Secret"
 
 def get_db_connection():
     conn = sqlite3.connect('birthdays.db')
