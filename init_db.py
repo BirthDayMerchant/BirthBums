@@ -29,9 +29,10 @@ cursor.execute('''
     CREATE TABLE IF NOT EXISTS birthday_requests (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
+        dob DATE,
         room_no TEXT,
         proof TEXT,
-        dob DATE
+        requested_by TEXT
     )
 ''')
 
