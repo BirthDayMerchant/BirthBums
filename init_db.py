@@ -30,7 +30,8 @@ cursor.execute('''
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         room_no TEXT,
-        proof TEXT
+        proof TEXT,
+        dob DATE
     )
 ''')
 
