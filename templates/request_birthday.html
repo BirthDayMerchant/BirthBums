@@ -1,36 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <title>Request Birthday Addition</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Birthday Addition — Birthday Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background:
+        radial-gradient(1000px 600px at 10% -10%, rgba(99,102,241,0.18), transparent 60%),
+        radial-gradient(900px 500px at 100% 0%, rgba(236,72,153,0.15), transparent 55%),
+        #0b0d13;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.6);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .glass:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 20px 60px -16px rgba(0, 0, 0, 0.75);
+    }
+    /* Dark-styled file input button */
+    input[type="file"]::file-selector-button {
+      margin-right: 12px;
+      border: 0;
+      border-radius: 8px;
+      background: rgba(99,102,241,0.2);
+      color: #c7d2fe;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s ease;
+    }
+    input[type="file"]::file-selector-button:hover {
+      background: rgba(99,102,241,0.35);
+    }
+  </style>
 </head>
-<body style="font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; display: flex; justify-content: center;">
-    
-    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
-        <h2>📝 Add Birthday</h2>
-        <p style="font-size: 0.9em; color: #666;">Submit details to the admin for approval.</p>
-        
-        <!-- enctype is REQUIRED for file uploads to work -->
-        <form method="POST" enctype="multipart/form-data">
-            
-            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Student Name</label>
-            <input type="text" name="name" required placeholder="(Mandatory)" style="width: 95%; margin-bottom: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+<body class="grid min-h-screen place-items-center px-6 py-10 text-slate-200 font-sans antialiased selection:bg-indigo-500/40">
 
-            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Date of Birth</label>
-            <input type="date" name="dob" required style="width: 95%; margin-bottom: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-            
-            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Room Number</label>
-            <input type="text" name="room_no" placeholder="(Optional)" style="width: 95%; margin-bottom: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-            
-            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Upload Proof (optional)</label>
-            <input type="file" name="proof" style="width: 95%; margin-bottom: 20px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #f9f9f9;">
-
-            <button type="submit" style="width: 100%; padding: 10px; background: #007bff; color: white; border: none; font-weight: bold; border-radius: 4px; cursor: pointer;">Submit Request</button>
-        </form>
-        
-        <br>
-        <a href="/" style="color: #dc3545; text-decoration: none; display: block; text-align: center;">← Cancel</a>
+  <main class="w-full max-w-md">
+    <!-- Brand -->
+    <div class="mb-8 flex flex-col items-center gap-3 text-center">
+      <div class="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500 to-pink-500 shadow-lg shadow-indigo-500/30">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8V4m-4 4h8m-9 4h10a2 2 0 012 2v4a2 2 0 01-2 2H7a2 2 0 01-2-2v-4a2 2 0 012-2zm2 0v-1a2 2 0 114 0v1" />
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-2xl font-semibold tracking-tight text-white">Add Birthday</h1>
+        <p class="mt-1 text-sm text-slate-400">Submit details to the admin for approval</p>
+      </div>
     </div>
+
+    <!-- Card -->
+    <div class="glass rounded-2xl p-8">
+
+      <!-- enctype is REQUIRED for file uploads to work -->
+      <form method="POST" enctype="multipart/form-data" class="space-y-4">
+
+        <div>
+          <label for="name" class="mb-1.5 block text-xs font-medium uppercase tracking-wider text-slate-400">
+            Student Name <span class="text-pink-400">*</span>
+          </label>
+          <input id="name" type="text" name="name" required
+            class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition focus:border-indigo-400/50 focus:ring-2 focus:ring-indigo-500/30"
+            placeholder="Enter the student's name" />
+        </div>
+
+        <div>
+          <label for="dob" class="mb-1.5 block text-xs font-medium uppercase tracking-wider text-slate-400">
+            Date of Birth <span class="text-pink-400">*</span>
+          </label>
+          <input id="dob" type="date" name="dob" required
+            class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-300 outline-none transition focus:border-indigo-400/50 focus:ring-2 focus:ring-indigo-500/30 [color-scheme:dark]" />
+        </div>
+
+        <div>
+          <label for="room_no" class="mb-1.5 block text-xs font-medium uppercase tracking-wider text-slate-400">
+            Room Number <span class="text-slate-600">(optional)</span>
+          </label>
+          <input id="room_no" type="text" name="room_no"
+            class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition focus:border-indigo-400/50 focus:ring-2 focus:ring-indigo-500/30"
+            placeholder="e.g. 204" />
+        </div>
+
+        <div>
+          <label for="proof" class="mb-1.5 block text-xs font-medium uppercase tracking-wider text-slate-400">
+            Upload Proof <span class="text-slate-600">(optional)</span>
+          </label>
+          <input id="proof" type="file" name="proof"
+            class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-400 outline-none transition file:cursor-pointer focus:border-indigo-400/50 focus:ring-2 focus:ring-indigo-500/30" />
+        </div>
+
+        <button type="submit"
+          class="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:brightness-110 active:scale-[0.99]">
+          Submit Request
+        </button>
+      </form>
+
+      <div class="mt-6 border-t border-white/10 pt-5 text-center">
+        <a href="/" class="inline-flex items-center gap-1.5 text-sm text-slate-400 transition hover:text-indigo-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          Cancel
+        </a>
+      </div>
+    </div>
+  </main>
 
 </body>
 </html>

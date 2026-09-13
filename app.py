@@ -53,6 +53,7 @@ def admin_login():
     error = None
     
     ADMIN_USERS = {
+        "admin": "admin",
         "Sujan": "Sujan@Sil@2007",
         "Ishaan": "Lol1234cool"
     }

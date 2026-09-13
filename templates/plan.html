@@ -1,12 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="dark">
 <head>
-    <title>Plan Birthday</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plan Birthday — Birthday Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background:
+        radial-gradient(1000px 600px at 10% -10%, rgba(99,102,241,0.18), transparent 60%),
+        radial-gradient(900px 500px at 100% 0%, rgba(236,72,153,0.15), transparent 55%),
+        #0b0d13;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.6);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .glass:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 20px 60px -16px rgba(0, 0, 0, 0.75);
+    }
+  </style>
 </head>
-<body>
-    <h1>Admin Also has Quizzes☠️</h1>
-    <h1>(upcoming feature)</h1>
-    <!-- <p>The planning logic will go here.</p> -->
-    <a href="/">Back to Dashboard</a>
+<body class="grid min-h-screen place-items-center px-6 py-10 text-slate-200 font-sans antialiased selection:bg-indigo-500/40">
+
+  <main class="w-full max-w-md">
+    <div class="glass rounded-2xl p-10 text-center">
+      <div class="mx-auto mb-6 grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500 to-pink-500 shadow-lg shadow-indigo-500/30">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3a6 6 0 00-3.75 10.687c.47.373.75.94.75 1.538V16h6v-.775c0-.598.28-1.165.75-1.538A6 6 0 0012 3z" />
+        </svg>
+      </div>
+
+      <span class="inline-flex items-center gap-2 rounded-full bg-pink-500/15 px-3 py-1 text-xs font-medium uppercase tracking-wider text-pink-300">
+        Upcoming Feature
+      </span>
+
+      <h1 class="mt-4 text-2xl font-semibold tracking-tight text-white">Admin Also has Quizzes</h1>
+      <p class="mt-3 text-sm text-slate-400">The planning logic is on its way. Check back soon for something fun.</p>
+
+      <a href="/" class="mt-8 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:brightness-110 active:scale-[0.99]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Back to Dashboard
+      </a>
+    </div>
+  </main>
+
 </body>
 </html>

@@ -1,25 +1,107 @@
 <!DOCTYPE html>
-<html>
-<head><title>Login</title></head>
-<body style="font-family: Arial; padding: 20px; max-width: 400px; margin: auto;">
-    <h2>Welcome! Please Login</h2>
-    {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
-    
-    <form method="POST">
-        <label>Username</label><br>
-        <input type="text" name="username" required style="width:100%; margin-bottom: 10px;"><br>
-        
-        <label>Password</label><br>
-        <input type="password" name="password" required style="width:100%; margin-bottom: 20px;"><br>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — Birthday Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background:
+        radial-gradient(1000px 600px at 10% -10%, rgba(99,102,241,0.18), transparent 60%),
+        radial-gradient(900px 500px at 100% 0%, rgba(236,72,153,0.15), transparent 55%),
+        #0b0d13;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.6);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .glass:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 20px 60px -16px rgba(0, 0, 0, 0.75);
+    }
+  </style>
+</head>
+<body class="grid min-h-screen place-items-center px-6 text-slate-200 font-sans antialiased selection:bg-indigo-500/40">
 
-        <button type="submit" style="width:100%; padding: 10px; background: #007bff; color: white; border: none;">Login</button>
-    </form>
-    
-    <p style="text-align: center;"><a href="/register">Don't have an account? Register here.</a></p>
-    
-    <hr style="margin-top: 30px;">
-    <!-- Admin Login Button (Configured later) -->
-    <p style="text-align: center; color: #666; font-size: 0.9em;">Are you an administrator?</p>
-    <a href="/admin-login" style="display: block; text-align: center; color: #dc3545; text-decoration: none; border: 1px solid #dc3545; padding: 5px; border-radius: 4px;">Admin Login</a>
+  <main class="w-full max-w-md">
+    <!-- Brand -->
+    <div class="mb-8 flex flex-col items-center gap-3 text-center">
+      <div class="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500 to-pink-500 shadow-lg shadow-indigo-500/30">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8V4m-4 4h8m-9 4h10a2 2 0 012 2v4a2 2 0 01-2 2H7a2 2 0 01-2-2v-4a2 2 0 012-2zm2 0v-1a2 2 0 114 0v1" />
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-2xl font-semibold tracking-tight text-white">Welcome Back</h1>
+        <p class="mt-1 text-sm text-slate-400">Sign in to your Birthday Tracker account</p>
+      </div>
+    </div>
+
+    <!-- Card -->
+    <div class="glass rounded-2xl p-8">
+
+      <!-- Flask error message -->
+      {% if error %}
+      <div class="mb-6 flex items-center gap-3 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{ error }}</span>
+      </div>
+      {% endif %}
+
+      <form method="POST" class="space-y-5">
+        <div>
+          <label for="username" class="mb-2 block text-xs font-medium uppercase tracking-wider text-slate-400">Username</label>
+          <div class="relative">
+            <span class="pointer-events-none absolute inset-y-0 left-0 grid w-11 place-items-center text-slate-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </span>
+            <input id="username" type="text" name="username" required autocomplete="username"
+              class="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-11 pr-4 text-sm text-white placeholder-slate-500 outline-none transition focus:border-indigo-400/50 focus:ring-2 focus:ring-indigo-500/30"
+              placeholder="Enter your username" />
+          </div>
+        </div>
+
+        <div>
+          <label for="password" class="mb-2 block text-xs font-medium uppercase tracking-wider text-slate-400">Password</label>
+          <div class="relative">
+            <span class="pointer-events-none absolute inset-y-0 left-0 grid w-11 place-items-center text-slate-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </span>
+            <input id="password" type="password" name="password" required autocomplete="current-password"
+              class="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-11 pr-4 text-sm text-white placeholder-slate-500 outline-none transition focus:border-indigo-400/50 focus:ring-2 focus:ring-indigo-500/30"
+              placeholder="Enter your password" />
+          </div>
+        </div>
+
+        <button type="submit"
+          class="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:brightness-110 active:scale-[0.99]">
+          Login
+        </button>
+      </form>
+
+      <p class="mt-6 text-center text-sm text-slate-400">
+        Don't have an account?
+        <a href="/register" class="font-medium text-indigo-300 transition hover:text-indigo-200">Register here</a>
+      </p>
+    </div>
+
+    <!-- Admin Login -->
+    <div class="mt-6 text-center">
+      <p class="mb-3 text-xs text-slate-500">Are you an administrator?</p>
+      <a href="/admin-login" class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-slate-300 transition hover:border-red-400/40 hover:bg-red-500/15 hover:text-red-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        Admin Login
+      </a>
+    </div>
+  </main>
+
 </body>
 </html>
